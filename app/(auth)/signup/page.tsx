@@ -87,21 +87,13 @@ export default function SignUp() {
 						</div>
 
 						<div className='space-y-1.5'>
-							<div className='flex items-center justify-between'>
+							<div className='relative'>
 								<label
 									htmlFor='password'
 									className='text-sm font-medium text-zinc-200'
 								>
 									Password
 								</label>
-								<Link
-									href='/forgot-password'
-									className='text-xs text-zinc-500 underline-offset-4 hover:text-zinc-200 hover:underline transition-colors'
-								>
-									Forgot password?
-								</Link>
-							</div>
-							<div className='relative'>
 								<input
 									id='password'
 									type={showPassword ? "text" : "password"}
@@ -169,10 +161,10 @@ export default function SignUp() {
 											d='M21 12a9 9 0 1 1-6.219-8.56'
 										/>
 									</svg>
-									Signing in…
+									Signing Up…
 								</>
 							) : (
-								"Sign in"
+								"Sign Up"
 							)}
 						</button>
 
@@ -230,7 +222,7 @@ export default function SignUp() {
 				</div>
 
 				<p className='mt-4 text-center text-sm text-zinc-500'>
-					Already have an account?{" "}
+					Login to your account?{" "}
 					<Link
 						href='/login'
 						className='font-medium text-zinc-200 underline-offset-4 hover:underline'
