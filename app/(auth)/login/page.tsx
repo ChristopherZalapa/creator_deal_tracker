@@ -232,7 +232,7 @@ export default function Login() {
 				<p className='mt-4 text-center text-sm text-zinc-500'>
 					Don&apos;t have an account?{" "}
 					<Link
-						href='/register'
+						href='/signup'
 						className='font-medium text-zinc-200 underline-offset-4 hover:underline'
 					>
 						Sign up
