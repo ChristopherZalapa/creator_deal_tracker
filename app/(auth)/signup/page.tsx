@@ -93,7 +93,9 @@ export default function SignUp() {
 									className='text-sm font-medium text-zinc-200'
 								>
 									Password
-								</label>
+                                </label>
+                                <div className="relative">
+
 								<input
 									id='password'
 									type={showPassword ? "text" : "password"}
@@ -138,6 +140,7 @@ export default function SignUp() {
 										</svg>
 									)}
 								</button>
+                                </div>
 							</div>
 						</div>
 
