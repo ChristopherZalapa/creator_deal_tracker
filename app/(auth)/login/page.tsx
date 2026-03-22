@@ -230,7 +230,7 @@ export default function Login() {
 				</div>
 
 				<p className='mt-4 text-center text-sm text-zinc-500'>
-					Already have an account?{" "}
+					Don&apos;t have an account?{" "}
 					<Link
 						href='/login'
 						className='font-medium text-zinc-200 underline-offset-4 hover:underline'
