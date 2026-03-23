@@ -19,7 +19,7 @@ export default function Login() {
 		event.preventDefault();
 		setLoading(true);
 		setError("");
-		const { data, error } = await supabase.auth.signInWithPassword({
+		const { error } = await supabase.auth.signInWithPassword({
 			email: email,
 			password: password,
 		});
@@ -232,10 +232,10 @@ export default function Login() {
 				<p className='mt-4 text-center text-sm text-zinc-500'>
 					Don&apos;t have an account?{" "}
 					<Link
-						href='/login'
+						href='/signup'
 						className='font-medium text-zinc-200 underline-offset-4 hover:underline'
 					>
-						Login
+						Sign Up
 					</Link>
 				</p>
 			</div>

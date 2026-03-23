@@ -20,7 +20,7 @@ export default function SignUp() {
 		setLoading(true);
 		setError("");
 
-		const { data, error } = await supabase.auth.signUp({
+		const { error } = await supabase.auth.signUp({
 			email: email,
 			password: password,
 		});
@@ -93,54 +93,55 @@ export default function SignUp() {
 									className='text-sm font-medium text-zinc-200'
 								>
 									Password
-                                </label>
-                                <div className="relative">
-
-								<input
-									id='password'
-									type={showPassword ? "text" : "password"}
-									autoComplete='current-password'
-									placeholder='••••••••'
-									value={password}
-									onChange={(e) => setPassword(e.target.value)}
-									required
-									className='w-full h-9 rounded-md border border-white/10 bg-white/5 px-3 pr-9 py-1 text-sm text-white shadow-sm transition-colors placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-white/30 disabled:cursor-not-allowed disabled:opacity-50'
-								/>
-								<button
-									type='button'
-									onClick={() => setShowPassword(!showPassword)}
-									className='absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-200 transition-colors'
-									aria-label={showPassword ? "Hide password" : "Show password"}
-								>
-									{showPassword ? (
-										<svg
-											className='w-4 h-4'
-											fill='none'
-											stroke='currentColor'
-											strokeWidth={2}
-											viewBox='0 0 24 24'
-										>
-											<path
-												strokeLinecap='round'
-												strokeLinejoin='round'
-												d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'
-											/>
-											<line x1='1' y1='1' x2='23' y2='23' />
-										</svg>
-									) : (
-										<svg
-											className='w-4 h-4'
-											fill='none'
-											stroke='currentColor'
-											strokeWidth={2}
-											viewBox='0 0 24 24'
-										>
-											<path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z' />
-											<circle cx='12' cy='12' r='3' />
-										</svg>
-									)}
-								</button>
-                                </div>
+								</label>
+								<div className='relative'>
+									<input
+										id='password'
+										type={showPassword ? "text" : "password"}
+										autoComplete='current-password'
+										placeholder='••••••••'
+										value={password}
+										onChange={(e) => setPassword(e.target.value)}
+										required
+										className='w-full h-9 rounded-md border border-white/10 bg-white/5 px-3 pr-9 py-1 text-sm text-white shadow-sm transition-colors placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-white/30 disabled:cursor-not-allowed disabled:opacity-50'
+									/>
+									<button
+										type='button'
+										onClick={() => setShowPassword(!showPassword)}
+										className='absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-200 transition-colors'
+										aria-label={
+											showPassword ? "Hide password" : "Show password"
+										}
+									>
+										{showPassword ? (
+											<svg
+												className='w-4 h-4'
+												fill='none'
+												stroke='currentColor'
+												strokeWidth={2}
+												viewBox='0 0 24 24'
+											>
+												<path
+													strokeLinecap='round'
+													strokeLinejoin='round'
+													d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'
+												/>
+												<line x1='1' y1='1' x2='23' y2='23' />
+											</svg>
+										) : (
+											<svg
+												className='w-4 h-4'
+												fill='none'
+												stroke='currentColor'
+												strokeWidth={2}
+												viewBox='0 0 24 24'
+											>
+												<path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z' />
+												<circle cx='12' cy='12' r='3' />
+											</svg>
+										)}
+									</button>
+								</div>
 							</div>
 						</div>
 
@@ -225,7 +226,7 @@ export default function SignUp() {
 				</div>
 
 				<p className='mt-4 text-center text-sm text-zinc-500'>
-					Already have and account??{" "}
+					Already have and account?{" "}
 					<Link
 						href='/login'
 						className='font-medium text-zinc-200 underline-offset-4 hover:underline'
