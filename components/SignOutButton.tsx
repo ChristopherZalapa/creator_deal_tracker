@@ -33,7 +33,7 @@ export default function SignOutButton() {
 			onClick={handleSignOut}
 			type='button'
 			disabled={loading}
-			className=' h-9 rounded-md bg-white px-4 py-2 text-sm font-medium text-black shadow transition-colors hover:bg-zinc-200 focus:outline-none focus:ring-1 focus:ring-white/50 disabled:pointer-events-none disabled:opacity-50 flex items-center justify-center gap-2'
+			className=' h-9 rounded-md bg-white px-4 py-2 text-sm font-medium text-black shadow transition-colors hover:bg-zinc-200 focus:outline-none focus:ring-1 focus:ring-white/50 flex items-center justify-center gap-2 cursor-pointer'
 		>
 			{loading ? (
 				<>
