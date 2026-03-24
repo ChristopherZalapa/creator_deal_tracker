@@ -11,6 +11,7 @@ export default function SignUp() {
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
+	const [fullName, setFullName] = useState("");
 
 	const supabase = createClient();
 	const router = useRouter();
@@ -23,6 +24,11 @@ export default function SignUp() {
 		const { error } = await supabase.auth.signUp({
 			email: email,
 			password: password,
+			options: {
+				data: {
+					full_name: fullName,
+				},
+			},
 		});
 
 		if (error) {
@@ -66,6 +72,25 @@ export default function SignUp() {
 								{error}
 							</div>
 						)}
+
+						<div className='space-y-1.5'>
+							<label
+								htmlFor='fullName'
+								className='text-sm font-medium text-zinc-200'
+							>
+								Full Name
+							</label>
+							<input
+								id='fullName'
+								type='text'
+								autoComplete='fullName'
+								placeholder='John Smith'
+								value={fullName}
+								onChange={(e) => setFullName(e.target.value)}
+								required
+								className='w-full h-9 rounded-md border border-white/10 bg-white/5 px-3 py-1 text-sm text-white shadow-sm transition-colors placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-white/30 disabled:cursor-not-allowed disabled:opacity-50'
+							/>
+						</div>
 
 						<div className='space-y-1.5'>
 							<label
@@ -226,7 +251,7 @@ export default function SignUp() {
 				</div>
 
 				<p className='mt-4 text-center text-sm text-zinc-500'>
-					Already have and account?{" "}
+					Already have an account?{" "}
 					<Link
 						href='/login'
 						className='font-medium text-zinc-200 underline-offset-4 hover:underline'

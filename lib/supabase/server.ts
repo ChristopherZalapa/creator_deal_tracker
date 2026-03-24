@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-export async function createServerSupabaseClient() {
+export async function createClient() {
 	const cookieStore = await cookies();
 
 	return createServerClient(
@@ -10,11 +10,11 @@ export async function createServerSupabaseClient() {
 		{
 			cookies: {
 				getAll() {
-                    return cookieStore.getAll();
-                    // getAll() - reads all cookies (So Supabase can find my session)
+					return cookieStore.getAll();
+					// getAll() - reads all cookies (So Supabase can find my session)
 				},
-                setAll(cookiesToSet) {
-                    // setAll() - writes cookies back(so your session stays fresh)
+				setAll(cookiesToSet) {
+					// setAll() - writes cookies back(so your session stays fresh)
 					cookiesToSet.forEach(({ name, value, options }) => {
 						cookieStore.set(name, value, options);
 					});
