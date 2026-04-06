@@ -118,7 +118,6 @@ export default async function Creators() {
 								</td>
 							</tr>
 						)}
-						)
 					</tbody>
 				</table>
 			</div>
