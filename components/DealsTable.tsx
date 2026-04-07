@@ -44,7 +44,7 @@ function getStatusDisplay(status: string) {
 }
 
 export default function DealsTable({ deals }: { deals: Deal[] }) {
-	const [openModal, setOpenModal] = useState(true);
+	const [openModal, setOpenModal] = useState(false);
 	const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
 
 	const handleUpdate = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -183,7 +183,7 @@ export default function DealsTable({ deals }: { deals: Deal[] }) {
 								<form onSubmit={handleUpdate} className='space-y-5'>
 									<div className='space-y-1.5'>
 										<label
-											htmlFor='name'
+											htmlFor='brand_name'
 											className='text-sm font-medium text-zinc-200'
 										>
 											Brand Name
@@ -195,29 +195,13 @@ export default function DealsTable({ deals }: { deals: Deal[] }) {
 											id='brand_name'
 											required
 											placeholder='Nike'
-											className='w-full h-9 rounded-md border border-white/10 bg-white/5 px-3 py-1 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-white/30 transition-colors mt-1'
+											className='w-full h-9 rounded-md border border-white/10 bg-white/5 px-3 py-1 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-white/30 transition-colors'
 										/>
 									</div>
+
 									<div className='space-y-1.5'>
 										<label
-											htmlFor='name'
-											className='text-sm font-medium text-zinc-200'
-										>
-											Brand Name
-										</label>
-										<input
-											type='text'
-											defaultValue={selectedDeal?.brand_name}
-											name='brand_name'
-											id='brand_name'
-											required
-											placeholder='Nike'
-											className='w-full h-9 rounded-md border border-white/10 bg-white/5 px-3 py-1 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-white/30 transition-colors mt-1'
-										/>
-									</div>
-									<div className='space-y-1.5'>
-										<label
-											htmlFor='platform'
+											htmlFor='status'
 											className='text-sm font-medium text-zinc-200'
 										>
 											Status
@@ -228,16 +212,13 @@ export default function DealsTable({ deals }: { deals: Deal[] }) {
 												defaultValue={selectedDeal?.status}
 												id='status'
 												required
-												className='w-full h-9 appearance-none rounded-md border border-white/10 bg-[#0d0d0d] px-3 pr-8 py-1 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/30 transition-colors cursor-pointer mt-1'
+												className='w-full h-9 appearance-none rounded-md border border-white/10 bg-[#0d0d0d] px-3 pr-8 py-1 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/30 transition-colors cursor-pointer'
 											>
-												<option value={"default"} disabled>
-													Select platform
-												</option>
-												<option value='instagram'>Instagram</option>
-												<option value='youtube'>YouTube</option>
-												<option value='tiktok'>TikTok</option>
-												<option value='twitter'>Twitter</option>
-												<option value='linkedin'>LinkedIn</option>
+												<option value='contacted'>Contacted</option>
+												<option value='negotiating'>Negotiating</option>
+												<option value='signed'>Signed</option>
+												<option value='completed'>Completed</option>
+												<option value='cancelled'>Cancelled</option>
 											</select>
 											<div className='pointer-events-none absolute inset-y-0 right-2.5 flex items-center'>
 												<svg
@@ -256,58 +237,78 @@ export default function DealsTable({ deals }: { deals: Deal[] }) {
 											</div>
 										</div>
 									</div>
-									<div className='space-y-1.5'>
-										<label
-											htmlFor='name'
-											className='text-sm font-medium text-zinc-200'
-										>
-											Brand Name
-										</label>
-										<input
-											type='text'
-											defaultValue={selectedDeal?.brand_name}
-											name='brand_name'
-											id='brand_name'
-											required
-											placeholder='Nike'
-											className='w-full h-9 rounded-md border border-white/10 bg-white/5 px-3 py-1 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-white/30 transition-colors mt-1'
-										/>
+
+									<div className='grid grid-cols-2 gap-4'>
+										<div className='space-y-1.5'>
+											<label
+												htmlFor='deal_value'
+												className='text-sm font-medium text-zinc-200'
+											>
+												Deal Value
+											</label>
+											<input
+												type='number'
+												defaultValue={selectedDeal?.deal_value}
+												name='deal_value'
+												id='deal_value'
+												placeholder='10000'
+												className='w-full h-9 rounded-md border border-white/10 bg-white/5 px-3 py-1 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-white/30 transition-colors'
+											/>
+										</div>
+										<div className='space-y-1.5'>
+											<label
+												htmlFor='cost'
+												className='text-sm font-medium text-zinc-200'
+											>
+												Cost
+											</label>
+											<input
+												type='number'
+												defaultValue={selectedDeal?.cost}
+												name='cost'
+												id='cost'
+												placeholder='5000'
+												className='w-full h-9 rounded-md border border-white/10 bg-white/5 px-3 py-1 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-white/30 transition-colors'
+											/>
+										</div>
 									</div>
-									<div className='space-y-1.5'>
-										<label
-											htmlFor='name'
-											className='text-sm font-medium text-zinc-200'
-										>
-											Brand Name
-										</label>
-										<input
-											type='text'
-											defaultValue={selectedDeal?.brand_name}
-											name='brand_name'
-											id='brand_name'
-											required
-											placeholder='Nike'
-											className='w-full h-9 rounded-md border border-white/10 bg-white/5 px-3 py-1 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-white/30 transition-colors mt-1'
-										/>
+
+									<div className='grid grid-cols-2 gap-4'>
+										<div className='space-y-1.5'>
+											<label
+												htmlFor='expected_views'
+												className='text-sm font-medium text-zinc-200'
+											>
+												Expected Views
+											</label>
+											<input
+												type='number'
+												defaultValue={selectedDeal?.expected_views}
+												name='expected_views'
+												id='expected_views'
+												placeholder='100000'
+												className='w-full h-9 rounded-md border border-white/10 bg-white/5 px-3 py-1 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-white/30 transition-colors'
+											/>
+										</div>
+										<div className='space-y-1.5'>
+											<label
+												htmlFor='actual_views'
+												className='text-sm font-medium text-zinc-200'
+											>
+												Actual Views
+											</label>
+											<input
+												type='number'
+												defaultValue={selectedDeal?.actual_views}
+												name='actual_views'
+												id='actual_views'
+												placeholder='80000'
+												className='w-full h-9 rounded-md border border-white/10 bg-white/5 px-3 py-1 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-white/30 transition-colors'
+											/>
+										</div>
 									</div>
-									<div className='space-y-1.5'>
-										<label
-											htmlFor='name'
-											className='text-sm font-medium text-zinc-200'
-										>
-											Brand Name
-										</label>
-										<input
-											type='text'
-											defaultValue={selectedDeal?.brand_name}
-											name='brand_name'
-											id='brand_name'
-											required
-											placeholder='Nike'
-											className='w-full h-9 rounded-md border border-white/10 bg-white/5 px-3 py-1 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-white/30 transition-colors mt-1'
-										/>
-									</div>
-									<div className='flex justify-between gap-3 pt-2'>
+
+									<div className='flex items-center gap-3 pt-2'>
 										<button
 											type='submit'
 											className='h-9 rounded-md bg-white px-6 text-sm font-medium text-black hover:bg-zinc-200 transition-colors'
