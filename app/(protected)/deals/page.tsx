@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import DealsTable from "@/components/DealsTable";
 
 export default async function Deals({
 	searchParams,
