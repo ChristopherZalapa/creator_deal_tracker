@@ -19,13 +19,9 @@ export default async function Deals({
 		redirect("/login");
 	}
 
-	let query = supabase.from("deals").select("*, creators(name)") as any;
+	const query = supabase.from("deals").select("*, creators(name)");
 
-	if (status) {
-		query = query.eq("status", status);
-	}
-
-	const { data: deals } = await query;
+	const { data: deals } = await (status ? query.eq("status", status) : query);
 
 	return (
 		<div className='p-8'>
