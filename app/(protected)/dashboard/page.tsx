@@ -18,6 +18,19 @@ export default async function Dashboard() {
 		.eq("id", user!.id)
 		.single();
 
+	const { count: CreatorCount } = await supabase
+		.from("creators")
+		.select("*", { count: "exact", head: true });
+
+	const { count: activeDealsCount } = await supabase
+		.from("deals")
+		.select("*", { count: "exact", head: true })
+		.neq("status", "cancelled");
+
+	const { data: deals } = await supabase
+		.from("deals")
+		.select("deal_value ,status");
+
 	return (
 		<div className='p-8'>
 			<h1 className='text-white text-2xl font-semibold mb-8'>

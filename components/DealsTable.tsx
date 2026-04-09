@@ -118,22 +118,24 @@ export default function DealsTable({ deals }: { deals: Deal[] }) {
 												</span>
 											</div>
 										</td>
-										<td className='flex items-center gap-2'>
-											<button
-												onClick={() => deleteDeal(deal.id)}
-												className='text-red-400 hover:text-red-300 text-sm transition-colors'
-											>
-												Delete
-											</button>
-											<button
-												onClick={() => {
-													setSelectedDeal(deal);
-													setOpenModal(true);
-												}}
-												className='text-zinc-400 hover:text-white text-sm transition-colors'
-											>
-												Edit
-											</button>
+										<td className='py-4'>
+											<div className='flex items-center gap-2'>
+												<button
+													onClick={() => deleteDeal(deal.id)}
+													className='text-red-400 hover:text-red-300 text-sm transition-colors'
+												>
+													Delete
+												</button>
+												<button
+													onClick={() => {
+														setSelectedDeal(deal);
+														setOpenModal(true);
+													}}
+													className='text-zinc-400 hover:text-white text-sm transition-colors'
+												>
+													Edit
+												</button>
+											</div>
 										</td>
 									</tr>
 								);
@@ -176,7 +178,7 @@ export default function DealsTable({ deals }: { deals: Deal[] }) {
 									className='text-zinc-400 hover:text-white transition-colors'
 									onClick={() => setOpenModal(false)}
 								>
-									x
+									✕
 								</button>
 							</div>
 							<div className='bg-white/5 border border-white/10 rounded-xl p-6'>
