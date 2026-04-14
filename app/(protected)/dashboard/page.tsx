@@ -18,7 +18,7 @@ export default async function Dashboard() {
 		.eq("id", user!.id)
 		.single();
 
-	const { count: CreatorCount } = await supabase
+	const { count: creatorCount } = await supabase
 		.from("creators")
 		.select("*", { count: "exact", head: true });
 
@@ -31,6 +31,17 @@ export default async function Dashboard() {
 		.from("deals")
 		.select("deal_value ,status");
 
+	const totalRevenue =
+		deals?.reduce((acc, deal) => acc + deal.deal_value, 0) ?? 0;
+
+	const completedDeals =
+		deals?.filter((deal) => deal.status === "completed").length ?? 0;
+
+	const totalDeals = deals?.length ?? 0;
+
+	const conversionRate =
+		totalDeals > 0 ? Math.round((completedDeals / totalDeals) * 100) : 0;
+
 	return (
 		<div className='p-8'>
 			<h1 className='text-white text-2xl font-semibold mb-8'>
@@ -40,22 +51,26 @@ export default async function Dashboard() {
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
 				<div className='border bg-white/5 border-white/10 rounded-xl p-6'>
 					<p className='text-zinc-400 text-sm mb-2'>Total Creators</p>
-					<h2 className='text-white text-2xl font-bold'>24</h2>
+					<h2 className='text-white text-2xl font-bold'>{creatorCount ?? 0}</h2>
 				</div>
 
 				<div className='border bg-white/5 border-white/10 rounded-xl p-6'>
 					<p className='text-zinc-400 text-sm mb-2'>Active Deals</p>
-					<h2 className='text-white text-2xl font-bold'>24</h2>
+					<h2 className='text-white text-2xl font-bold'>
+						{activeDealsCount ?? 0}
+					</h2>
 				</div>
 
 				<div className='border bg-white/5 border-white/10 rounded-xl p-6'>
 					<p className='text-zinc-400 text-sm mb-2'>Total Revenue</p>
-					<h2 className='text-white text-2xl font-bold'>24</h2>
+					<h2 className='text-white text-2xl font-bold'>
+						${totalRevenue ?? 0}
+					</h2>
 				</div>
 
 				<div className='border bg-white/5 border-white/10 rounded-xl p-6'>
 					<p className='text-zinc-400 text-sm mb-2'>Conversion Rate</p>
-					<h2 className='text-white text-2xl font-bold'>24</h2>
+					<h2 className='text-white text-2xl font-bold'>{conversionRate}%</h2>
 				</div>
 			</div>
 		</div>

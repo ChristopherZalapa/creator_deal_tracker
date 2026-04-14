@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import DealsTable from "@/components/DealsTable";
+import ExportButton from "@/components/ExportButton";
 
 export default async function Deals({
 	searchParams,
@@ -19,6 +20,12 @@ export default async function Deals({
 		redirect("/login");
 	}
 
+	const { data: profile } = await supabase
+		.from("profiles")
+		.select("*")
+		.eq("id", user!.id)
+		.single();
+
 	const query = supabase.from("deals").select("*, creators(name)");
 
 	const { data: deals } = await (status ? query.eq("status", status) : query);
@@ -27,12 +34,15 @@ export default async function Deals({
 		<div className='p-8'>
 			<div className='flex justify-between items-center mb-6'>
 				<h1 className='text-white text-2xl font-semibold'> Deals</h1>
-				<Link
-					href='/deals/new'
-					className='bg-white text-black text-sm font-medium px-4 py-2 rounded-md hover:bg-zinc-200'
-				>
-					Add Deal
-				</Link>
+				<div className='flex items-center gap-3'>
+					<ExportButton deals={deals ?? []} profile={profile?.full_name} />
+					<Link
+						href='/deals/new'
+						className='bg-white text-black text-sm font-medium px-4 py-2 rounded-md hover:bg-zinc-200'
+					>
+						Add Deal
+					</Link>
+				</div>
 			</div>
 
 			<div className='flex gap-2 mb-6'>

@@ -61,6 +61,12 @@ export default async function DashboardLayout({
 					>
 						Analytics
 					</Link>
+					<Link
+						href='/pricing'
+						className='hover:text-white hover:bg-white/10 block rounded-md px-3 py-2 text-zinc-400 transition-colors'
+					>
+						Pricing
+					</Link>
 				</nav>
 
 				<div className='flex flex-col mt-auto border-t border-white/10 pt-4'>
@@ -82,4 +88,3 @@ export default async function DashboardLayout({
 		</div>
 	);
 }
-

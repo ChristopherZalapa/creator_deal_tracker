@@ -3,6 +3,7 @@
 import { deleteDeal, updateDeal } from "@/app/(protected)/deals/actions";
 import { useState } from "react";
 import Link from "next/link";
+import type { Deal } from "@/types";
 import {
 	Mail,
 	MessageSquare,
@@ -11,20 +12,6 @@ import {
 	XCircle,
 	FileText,
 } from "lucide-react";
-
-type Deal = {
-	id: string;
-	brand_name: string;
-	deal_value: number;
-	status: string;
-	expected_views: number;
-	actual_views: number;
-	cost: number;
-	creator_id: string;
-	creators: {
-		name: string;
-	} | null;
-};
 
 function getStatusDisplay(status: string) {
 	switch (status) {

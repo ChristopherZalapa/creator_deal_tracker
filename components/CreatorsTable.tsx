@@ -6,15 +6,7 @@ import {
 } from "@/app/(protected)/creators/actions";
 import { useState } from "react";
 import Link from "next/link";
-
-type Creator = {
-	id: string;
-	name: string;
-	platform: string;
-	followers: number;
-	email: string;
-	niche: string;
-};
+import type { Creator } from "@/types";
 
 export default function CreatorTable({ creators }: { creators: Creator[] }) {
 	const [openModal, setOpenModal] = useState(false);
