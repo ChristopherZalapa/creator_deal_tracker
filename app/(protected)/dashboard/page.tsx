@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { Users, Handshake, DollarSign, TrendingUp } from "lucide-react";
 
 export default async function Dashboard() {
 	const supabase = await createClient();
@@ -29,7 +30,7 @@ export default async function Dashboard() {
 
 	const { data: deals } = await supabase
 		.from("deals")
-		.select("deal_value ,status");
+		.select("deal_value, status");
 
 	const totalRevenue =
 		deals?.reduce((acc, deal) => acc + deal.deal_value, 0) ?? 0;
@@ -42,36 +43,55 @@ export default async function Dashboard() {
 	const conversionRate =
 		totalDeals > 0 ? Math.round((completedDeals / totalDeals) * 100) : 0;
 
+	const stats = [
+		{
+			label: "Total Creators",
+			value: creatorCount ?? 0,
+			description: "Creators in your network",
+			icon: Users,
+		},
+		{
+			label: "Active Deals",
+			value: activeDealsCount ?? 0,
+			description: "Deals currently in progress",
+			icon: Handshake,
+		},
+		{
+			label: "Total Revenue",
+			value: `$${totalRevenue}`,
+			description: "Revenue from completed deals",
+			icon: DollarSign,
+		},
+		{
+			label: "Conversion Rate",
+			value: `${conversionRate}%`,
+			description: "Deals successfully completed",
+			icon: TrendingUp,
+		},
+	];
+
 	return (
 		<div className='p-8'>
 			<h1 className='text-white text-2xl font-semibold mb-8'>
 				Welcome Back, {profile?.full_name}
 			</h1>
 
-			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-				<div className='border bg-white/5 border-white/10 rounded-xl p-6'>
-					<p className='text-zinc-400 text-sm mb-2'>Total Creators</p>
-					<h2 className='text-white text-2xl font-bold'>{creatorCount ?? 0}</h2>
-				</div>
-
-				<div className='border bg-white/5 border-white/10 rounded-xl p-6'>
-					<p className='text-zinc-400 text-sm mb-2'>Active Deals</p>
-					<h2 className='text-white text-2xl font-bold'>
-						{activeDealsCount ?? 0}
-					</h2>
-				</div>
-
-				<div className='border bg-white/5 border-white/10 rounded-xl p-6'>
-					<p className='text-zinc-400 text-sm mb-2'>Total Revenue</p>
-					<h2 className='text-white text-2xl font-bold'>
-						${totalRevenue ?? 0}
-					</h2>
-				</div>
-
-				<div className='border bg-white/5 border-white/10 rounded-xl p-6'>
-					<p className='text-zinc-400 text-sm mb-2'>Conversion Rate</p>
-					<h2 className='text-white text-2xl font-bold'>{conversionRate}%</h2>
-				</div>
+			<div className='grid grid-cols-1 xl:grid-cols-2 gap-6'>
+				{stats.map((stat) => (
+					<div
+						key={stat.label}
+						className='border bg-white/5 border-white/10 rounded-xl p-10 min-h-70 flex flex-col justify-between'
+					>
+						<div className='flex items-center justify-between mb-4'>
+							<p className='text-zinc-400 text-sm'>{stat.label}</p>
+							<div className='w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center'>
+								<stat.icon className='w-5 h-5 text-zinc-400' />
+							</div>
+						</div>
+						<h2 className='text-white text-4xl font-bold mb-2'>{stat.value}</h2>
+						<p className='text-zinc-500 text-sm'>{stat.description}</p>
+					</div>
+				))}
 			</div>
 		</div>
 	);
