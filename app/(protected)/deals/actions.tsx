@@ -27,3 +27,10 @@ export async function updateDeal(
 
 	revalidatePath("/deals");
 }
+
+export async function updateDealsStatus(id: string, status: string) {
+	const supabase = await createClient();
+	await supabase.from("deals").update({ status }).eq("id", id);
+
+	revalidatePath("/kanban");
+}
