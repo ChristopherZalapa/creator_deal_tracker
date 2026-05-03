@@ -42,7 +42,7 @@ export default function KanbanColumn({
 	}
 
 	return (
-		<div className='shrink-0 w-70 flex flex-col gap-3'>
+		<div className='flex-1 min-w-50 flex flex-col gap-3'>
 			<div className='flex items-center justify-between'>
 				<h2 className='text-sm font-medium text-zinc-200'>{label}</h2>
 				<span className='text-xs text-zinc-500 bg-white/5 border border-white/10 rounded-full px-2 py-0.5'>

@@ -18,6 +18,7 @@ export default function KanbanBoard({
 	deals: Deal[];
 }) {
 	const [mounted, setMounted] = useState(false);
+	const [isDragging, setIsDragging] = useState(false);
 	const [deals, setDeals] = useState<Deal[]>(initialDeals);
 
 	useEffect(() => {
@@ -28,7 +29,7 @@ export default function KanbanBoard({
 	const sensors = useSensors(
 		useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
 		useSensor(TouchSensor, {
-			activationConstraint: { delay: 200, tolerance: 8 },
+			activationConstraint: { delay: 250, tolerance: 5 },
 		}),
 	);
 
@@ -40,7 +41,12 @@ export default function KanbanBoard({
 		{ id: "cancelled", label: "Cancelled" },
 	];
 
+	function handleDragStart() {
+		setIsDragging(true);
+	}
+
 	function handleDragEnd(event: DragEndEvent) {
+		setIsDragging(false);
 		const { active, over } = event;
 		if (!over) return;
 		const dealId = String(active.id);
@@ -56,9 +62,18 @@ export default function KanbanBoard({
 	if (!mounted) return null;
 
 	return (
-		<DndContext id='kanban-board' sensors={sensors} onDragEnd={handleDragEnd}>
-			{/* Mobile — stacked accordion rows */}
-			<div className='md:hidden flex flex-col gap-2'>
+		<DndContext
+			id='kanban-board'
+			sensors={sensors}
+			onDragStart={handleDragStart}
+			onDragEnd={handleDragEnd}
+		>
+			{/* Mobile */}
+			<div
+				className={`md:hidden flex flex-col gap-2 ${
+					isDragging ? "overflow-hidden touch-none" : ""
+				}`}
+			>
 				{columns.map((column) => (
 					<KanbanColumn
 						key={column.id}
@@ -70,18 +85,16 @@ export default function KanbanBoard({
 				))}
 			</div>
 
-			{/* Desktop — horizontal kanban */}
-			<div className='hidden md:block -mx-4 md:mx-0'>
-				<div className='flex gap-4 overflow-x-auto px-4 md:px-0 pb-6 scroll-smooth'>
-					{columns.map((column) => (
-						<KanbanColumn
-							key={column.id}
-							status={column.id}
-							label={column.label}
-							deals={deals.filter((deal) => deal.status === column.id)}
-						/>
-					))}
-				</div>
+			{/* Desktop */}
+			<div className='hidden md:flex gap-4 pb-6'>
+				{columns.map((column) => (
+					<KanbanColumn
+						key={column.id}
+						status={column.id}
+						label={column.label}
+						deals={deals.filter((deal) => deal.status === column.id)}
+					/>
+				))}
 			</div>
 		</DndContext>
 	);
