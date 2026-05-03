@@ -14,19 +14,12 @@ export default function KanbanCard({ deal }: { deal: Deal }) {
 					? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
 					: {}),
 				touchAction: "none",
+				opacity: isDragging ? 0 : 1,
+				pointerEvents: isDragging ? "none" : undefined,
 			}}
 			{...listeners}
 			{...attributes}
-			className={`
-        rounded-xl border p-4 select-none
-        cursor-grab active:cursor-grabbing
-        transition-all duration-150
-        ${
-					isDragging
-						? "opacity-50 shadow-xl border-white/20 bg-white/10"
-						: "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
-				}
-      `}
+			className='rounded-xl border p-4 select-none cursor-grab active:cursor-grabbing transition-all duration-150 bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
 		>
 			<p className='text-white text-sm font-medium mb-1'>{deal.brand_name}</p>
 			<p className='text-zinc-400 text-xs mb-3'>{deal.creators?.name}</p>

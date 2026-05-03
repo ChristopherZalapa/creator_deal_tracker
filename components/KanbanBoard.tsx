@@ -6,7 +6,7 @@ import {
 	TouchSensor,
 	useSensor,
 	useSensors,
-	pointerWithin,
+	rectIntersection,
 	DragOverlay,
 } from "@dnd-kit/core";
 import { useState, useEffect } from "react";
@@ -49,6 +49,7 @@ export default function KanbanBoard({
 
 	function handleDragEnd(event: DragEndEvent) {
 		const { active, over } = event;
+		console.log("dragEnd", { activeId: active.id, overId: over?.id });
 		if (!over) return;
 
 		const dealId = String(active.id);
@@ -56,7 +57,9 @@ export default function KanbanBoard({
 
 		let newStatus: string | null = null;
 
-		if (overId.startsWith("column-")) {
+		if (overId.startsWith("mobile-column-")) {
+			newStatus = overId.replace("mobile-column-", "");
+		} else if (overId.startsWith("column-")) {
 			newStatus = overId.replace("column-", "");
 		}
 
@@ -80,8 +83,9 @@ export default function KanbanBoard({
 
 	return (
 		<DndContext
+			id='kanban-board'
 			sensors={sensors}
-			collisionDetection={pointerWithin}
+			collisionDetection={rectIntersection}
 			onDragStart={(event) => setActiveId(String(event.active.id))}
 			onDragEnd={(event) => {
 				handleDragEnd(event);
@@ -92,11 +96,12 @@ export default function KanbanBoard({
 			<div className='md:hidden flex flex-col gap-2'>
 				{columns.map((column) => (
 					<KanbanColumn
-						key={column.id}
+						key={`mobile-${column.id}`}
 						status={column.id}
 						label={column.label}
 						deals={deals.filter((d) => d.status === column.id)}
 						collapsible
+						isMobile
 					/>
 				))}
 			</div>
@@ -104,7 +109,7 @@ export default function KanbanBoard({
 			<div className='hidden md:flex gap-3 pb-6 w-full'>
 				{columns.map((column) => (
 					<KanbanColumn
-						key={column.id}
+						key={`desktop-${column.id}`}
 						status={column.id}
 						label={column.label}
 						deals={deals.filter((d) => d.status === column.id)}
