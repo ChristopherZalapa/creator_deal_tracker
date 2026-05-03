@@ -14,16 +14,13 @@ export default function KanbanColumn({
 	deals: Deal[];
 	collapsible?: boolean;
 }) {
-	const { setNodeRef, isOver } = useDroppable({ id: status });
+	const { setNodeRef, isOver } = useDroppable({
+		id: `column-${status}`,
+	});
 
 	if (collapsible) {
 		return (
-			<div
-				ref={setNodeRef}
-				className={`border rounded-xl overflow-hidden transition-colors duration-150 ${
-					isOver ? "bg-white/10 border-white/25" : "bg-white/5 border-white/10"
-				}`}
-			>
+			<div className='border rounded-xl overflow-hidden'>
 				<div className='flex items-center justify-between px-4 py-3 border-b border-white/10'>
 					<span className='text-white text-sm font-medium'>{label}</span>
 					<span className='text-xs text-zinc-500 bg-white/5 border border-white/10 rounded-full px-2 py-0.5'>
@@ -31,11 +28,18 @@ export default function KanbanColumn({
 					</span>
 				</div>
 
-				<div className='flex flex-col gap-2 px-3 py-4 min-h-[100px]'>
+				<div
+					ref={setNodeRef}
+					className={`flex flex-col gap-2 px-3 py-4 min-h-[120px] transition-colors ${
+						isOver
+							? "bg-white/10 border border-white/25"
+							: "bg-white/5 border border-transparent"
+					}`}
+				>
 					{deals.length > 0 ? (
 						deals.map((deal) => <KanbanCard key={deal.id} deal={deal} />)
 					) : (
-						<p className='text-zinc-600 text-xs text-center py-2'>No deals</p>
+						<p className='text-zinc-600 text-xs text-center py-2'>Drop here</p>
 					)}
 				</div>
 			</div>
@@ -43,7 +47,7 @@ export default function KanbanColumn({
 	}
 
 	return (
-		<div className='flex-1 min-w-0 flex flex-col gap-3 overflow-x-hidden'>
+		<div className='flex-1 min-w-0 flex flex-col gap-3'>
 			<div className='flex items-center justify-between'>
 				<h2 className='text-sm font-medium text-zinc-200'>{label}</h2>
 				<span className='text-xs text-zinc-500 bg-white/5 border border-white/10 rounded-full px-2 py-0.5'>
@@ -53,7 +57,7 @@ export default function KanbanColumn({
 
 			<div
 				ref={setNodeRef}
-				className={`flex flex-col gap-2 rounded-xl p-3 min-h-[200px] border transition-colors duration-150 ${
+				className={`flex flex-col gap-2 rounded-xl p-3 min-h-[200px] border transition-colors ${
 					isOver
 						? "bg-white/10 border-white/25"
 						: "bg-white/[0.03] border-white/10"
@@ -62,7 +66,7 @@ export default function KanbanColumn({
 				{deals.length > 0 ? (
 					deals.map((deal) => <KanbanCard key={deal.id} deal={deal} />)
 				) : (
-					<p className='text-zinc-600 text-xs text-center pt-6'>No deals</p>
+					<p className='text-zinc-600 text-xs text-center pt-6'>Drop here</p>
 				)}
 			</div>
 		</div>

@@ -6,7 +6,7 @@ import {
 	TouchSensor,
 	useSensor,
 	useSensors,
-	closestCorners,
+	pointerWithin,
 	DragOverlay,
 } from "@dnd-kit/core";
 import { useState, useEffect } from "react";
@@ -32,7 +32,7 @@ export default function KanbanBoard({
 	const sensors = useSensors(
 		useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
 		useSensor(TouchSensor, {
-			activationConstraint: { delay: 250, tolerance: 5 },
+			activationConstraint: { tolerance: 8 },
 		}),
 	);
 
@@ -46,18 +46,31 @@ export default function KanbanBoard({
 
 	function handleDragEnd(event: DragEndEvent) {
 		const { active, over } = event;
+
+		console.log({
+			active: active.id,
+			over: over?.id,
+		});
+
 		if (!over) return;
 
 		const dealId = String(active.id);
 		const overId = String(over.id);
 
-		// Determine correct column
-		let newStatus = overId;
+		let newStatus: string | null = null;
 
+		// Dropped on column
+		if (overId.startsWith("column-")) {
+			newStatus = overId.replace("column-", "");
+		}
+
+		// Dropped on another card
 		const overDeal = deals.find((d) => d.id === overId);
 		if (overDeal) {
 			newStatus = overDeal.status;
 		}
+
+		if (!newStatus) return;
 
 		setDeals((prev) =>
 			prev.map((deal) =>
@@ -72,9 +85,8 @@ export default function KanbanBoard({
 
 	return (
 		<DndContext
-			id='kanban-board'
 			sensors={sensors}
-			collisionDetection={closestCorners}
+			collisionDetection={pointerWithin}
 			onDragStart={(event) => setActiveId(String(event.active.id))}
 			onDragEnd={(event) => {
 				handleDragEnd(event);
@@ -89,7 +101,7 @@ export default function KanbanBoard({
 						key={column.id}
 						status={column.id}
 						label={column.label}
-						deals={deals.filter((deal) => deal.status === column.id)}
+						deals={deals.filter((d) => d.status === column.id)}
 						collapsible
 					/>
 				))}
@@ -102,12 +114,12 @@ export default function KanbanBoard({
 						key={column.id}
 						status={column.id}
 						label={column.label}
-						deals={deals.filter((deal) => deal.status === column.id)}
+						deals={deals.filter((d) => d.status === column.id)}
 					/>
 				))}
 			</div>
 
-			{/* DRAG OVERLAY (CRITICAL FOR MOBILE) */}
+			{/* Drag overlay */}
 			<DragOverlay>
 				{activeId ? (
 					<KanbanCard deal={deals.find((d) => d.id === activeId)!} />

@@ -9,11 +9,12 @@ export default function KanbanCard({ deal }: { deal: Deal }) {
 	return (
 		<div
 			ref={setNodeRef}
-			style={
-				transform
+			style={{
+				...(transform
 					? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
-					: undefined
-			}
+					: {}),
+				touchAction: "none",
+			}}
 			{...listeners}
 			{...attributes}
 			className={`
