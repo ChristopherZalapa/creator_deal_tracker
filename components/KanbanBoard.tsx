@@ -26,9 +26,7 @@ export default function KanbanBoard({
 	}, []);
 
 	const sensors = useSensors(
-		useSensor(PointerSensor, {
-			activationConstraint: { distance: 8 },
-		}),
+		useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
 		useSensor(TouchSensor, {
 			activationConstraint: { delay: 200, tolerance: 8 },
 		}),
@@ -59,8 +57,22 @@ export default function KanbanBoard({
 
 	return (
 		<DndContext id='kanban-board' sensors={sensors} onDragEnd={handleDragEnd}>
-			<div className='-mx-4 md:mx-0'>
-				<div className='flex gap-3 md:gap-4 overflow-x-auto px-4 md:px-0 pb-6 scroll-smooth'>
+			{/* Mobile — stacked accordion rows */}
+			<div className='md:hidden flex flex-col gap-2'>
+				{columns.map((column) => (
+					<KanbanColumn
+						key={column.id}
+						status={column.id}
+						label={column.label}
+						deals={deals.filter((deal) => deal.status === column.id)}
+						collapsible
+					/>
+				))}
+			</div>
+
+			{/* Desktop — horizontal kanban */}
+			<div className='hidden md:block -mx-4 md:mx-0'>
+				<div className='flex gap-4 overflow-x-auto px-4 md:px-0 pb-6 scroll-smooth'>
 					{columns.map((column) => (
 						<KanbanColumn
 							key={column.id}
