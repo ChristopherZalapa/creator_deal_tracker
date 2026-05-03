@@ -32,7 +32,10 @@ export default function KanbanBoard({
 	const sensors = useSensors(
 		useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
 		useSensor(TouchSensor, {
-			activationConstraint: { tolerance: 8 },
+			activationConstraint: {
+				delay: 250,
+				tolerance: 8,
+			},
 		}),
 	);
 
@@ -46,12 +49,6 @@ export default function KanbanBoard({
 
 	function handleDragEnd(event: DragEndEvent) {
 		const { active, over } = event;
-
-		console.log({
-			active: active.id,
-			over: over?.id,
-		});
-
 		if (!over) return;
 
 		const dealId = String(active.id);
@@ -59,12 +56,10 @@ export default function KanbanBoard({
 
 		let newStatus: string | null = null;
 
-		// Dropped on column
 		if (overId.startsWith("column-")) {
 			newStatus = overId.replace("column-", "");
 		}
 
-		// Dropped on another card
 		const overDeal = deals.find((d) => d.id === overId);
 		if (overDeal) {
 			newStatus = overDeal.status;
@@ -94,7 +89,6 @@ export default function KanbanBoard({
 			}}
 			onDragCancel={() => setActiveId(null)}
 		>
-			{/* MOBILE */}
 			<div className='md:hidden flex flex-col gap-2'>
 				{columns.map((column) => (
 					<KanbanColumn
@@ -107,7 +101,6 @@ export default function KanbanBoard({
 				))}
 			</div>
 
-			{/* DESKTOP */}
 			<div className='hidden md:flex gap-3 pb-6 w-full'>
 				{columns.map((column) => (
 					<KanbanColumn
@@ -119,7 +112,6 @@ export default function KanbanBoard({
 				))}
 			</div>
 
-			{/* Drag overlay */}
 			<DragOverlay>
 				{activeId ? (
 					<KanbanCard deal={deals.find((d) => d.id === activeId)!} />
