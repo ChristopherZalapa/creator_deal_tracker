@@ -71,24 +71,26 @@ export default async function Dashboard() {
 	];
 
 	return (
-		<div className='p-8'>
-			<h1 className='text-white text-2xl font-semibold mb-8'>
+		<div className='p-4 md:p-8'>
+			<h1 className='text-white text-xl md:text-2xl font-semibold mb-6 md:mb-8'>
 				Welcome Back, {profile?.full_name}
 			</h1>
 
-			<div className='grid grid-cols-1 xl:grid-cols-2 gap-6'>
+			<div className='grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6'>
 				{stats.map((stat) => (
 					<div
 						key={stat.label}
-						className='border bg-white/5 border-white/10 rounded-xl p-10 min-h-70 flex flex-col justify-between'
+						className='border bg-white/5 border-white/10 rounded-xl p-5 md:p-10 min-h-40 md:min-h-70 flex flex-col justify-between'
 					>
-						<div className='flex items-center justify-between mb-4'>
+						<div className='flex items-center justify-between mb-3 md:mb-4'>
 							<p className='text-zinc-400 text-sm'>{stat.label}</p>
-							<div className='w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center'>
-								<stat.icon className='w-5 h-5 text-zinc-400' />
+							<div className='w-9 h-9 md:w-10 md:h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center'>
+								<stat.icon className='w-4 h-4 md:w-5 md:h-5 text-zinc-400' />
 							</div>
 						</div>
-						<h2 className='text-white text-4xl font-bold mb-2'>{stat.value}</h2>
+						<h2 className='text-white text-3xl md:text-4xl font-bold mb-2'>
+							{stat.value}
+						</h2>
 						<p className='text-zinc-500 text-sm'>{stat.description}</p>
 					</div>
 				))}

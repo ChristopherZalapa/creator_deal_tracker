@@ -13,15 +13,18 @@ export default async function Creators() {
 	if (!user) {
 		redirect("/login");
 	}
+
 	const { data: creators } = await supabase.from("creators").select("*");
 
 	return (
-		<div className='p-8'>
+		<div className='p-4 md:p-8'>
 			<div className='flex justify-between items-center mb-6'>
-				<h1 className='text-white text-2xl font-semibold'>Creators</h1>
+				<h1 className='text-white text-xl md:text-2xl font-semibold'>
+					Creators
+				</h1>
 				<Link
-					href={"/creators/new"}
-					className='bg-white text-black text-sm font-medium px-4 py-2 rounded-md hover:bg-zinc-200 transition-colors'
+					href='/creators/new'
+					className='bg-white text-black text-sm font-medium px-3 md:px-4 py-2 rounded-md hover:bg-zinc-200 transition-colors'
 				>
 					Add Creator
 				</Link>
