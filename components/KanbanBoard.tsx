@@ -18,7 +18,6 @@ export default function KanbanBoard({
 	deals: Deal[];
 }) {
 	const [mounted, setMounted] = useState(false);
-	const [isDragging, setIsDragging] = useState(false);
 	const [deals, setDeals] = useState<Deal[]>(initialDeals);
 
 	useEffect(() => {
@@ -41,12 +40,7 @@ export default function KanbanBoard({
 		{ id: "cancelled", label: "Cancelled" },
 	];
 
-	function handleDragStart() {
-		setIsDragging(true);
-	}
-
 	function handleDragEnd(event: DragEndEvent) {
-		setIsDragging(false);
 		const { active, over } = event;
 		if (!over) return;
 		const dealId = String(active.id);
@@ -62,17 +56,8 @@ export default function KanbanBoard({
 	if (!mounted) return null;
 
 	return (
-		<DndContext
-			id='kanban-board'
-			sensors={sensors}
-			onDragStart={handleDragStart}
-			onDragEnd={handleDragEnd}
-		>
-			{/* Mobile */}
-			<div
-				className='md:hidden flex flex-col gap-2'
-				style={{ touchAction: isDragging ? "none" : "auto" }}
-			>
+		<DndContext id='kanban-board' sensors={sensors} onDragEnd={handleDragEnd}>
+			<div className='md:hidden flex flex-col gap-2'>
 				{columns.map((column) => (
 					<KanbanColumn
 						key={column.id}
@@ -84,7 +69,6 @@ export default function KanbanBoard({
 				))}
 			</div>
 
-			{/* Desktop */}
 			<div className='hidden md:flex gap-3 pb-6 overflow-x-hidden w-full'>
 				{columns.map((column) => (
 					<KanbanColumn

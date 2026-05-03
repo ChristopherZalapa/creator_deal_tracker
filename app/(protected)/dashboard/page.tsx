@@ -71,7 +71,7 @@ export default async function Dashboard() {
 	];
 
 	return (
-		<div className='p-4 md:p-8'>
+		<div className='p-4 md:p-8 overflow-x-hidden'>
 			<h1 className='text-white text-xl md:text-2xl font-semibold mb-6 md:mb-8'>
 				Welcome Back, {profile?.full_name}
 			</h1>

@@ -9,7 +9,6 @@ export default function KanbanCard({ deal }: { deal: Deal }) {
 	return (
 		<div
 			ref={setNodeRef}
-			// transform must stay inline — dnd-kit sets exact pixel values
 			style={
 				transform
 					? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
@@ -26,8 +25,7 @@ export default function KanbanCard({ deal }: { deal: Deal }) {
 					isDragging
 						? "opacity-50 shadow-xl border-white/20 bg-white/10"
 						: "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
-				}
-`}
+				}`}
 		>
 			<p className='text-white text-sm font-medium mb-1'>{deal.brand_name}</p>
 			<p className='text-zinc-400 text-xs mb-3'>{deal.creators?.name}</p>
