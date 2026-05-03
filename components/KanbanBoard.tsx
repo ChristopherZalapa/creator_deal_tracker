@@ -6,10 +6,13 @@ import {
 	TouchSensor,
 	useSensor,
 	useSensors,
+	closestCorners,
+	DragOverlay,
 } from "@dnd-kit/core";
 import { useState, useEffect } from "react";
 import type { Deal } from "@/types";
 import KanbanColumn from "./KanbanColumn";
+import KanbanCard from "./KanbanCard";
 import { updateDealStatus } from "@/app/(protected)/deals/actions";
 
 export default function KanbanBoard({
@@ -19,6 +22,7 @@ export default function KanbanBoard({
 }) {
 	const [mounted, setMounted] = useState(false);
 	const [deals, setDeals] = useState<Deal[]>(initialDeals);
+	const [activeId, setActiveId] = useState<string | null>(null);
 
 	useEffect(() => {
 		const timeout = setTimeout(() => setMounted(true), 0);
@@ -43,20 +47,42 @@ export default function KanbanBoard({
 	function handleDragEnd(event: DragEndEvent) {
 		const { active, over } = event;
 		if (!over) return;
+
 		const dealId = String(active.id);
-		const newStatus = String(over.id);
+		const overId = String(over.id);
+
+		// Determine correct column
+		let newStatus = overId;
+
+		const overDeal = deals.find((d) => d.id === overId);
+		if (overDeal) {
+			newStatus = overDeal.status;
+		}
+
 		setDeals((prev) =>
 			prev.map((deal) =>
 				deal.id === dealId ? { ...deal, status: newStatus } : deal,
 			),
 		);
+
 		updateDealStatus(dealId, newStatus);
 	}
 
 	if (!mounted) return null;
 
 	return (
-		<DndContext id='kanban-board' sensors={sensors} onDragEnd={handleDragEnd}>
+		<DndContext
+			id='kanban-board'
+			sensors={sensors}
+			collisionDetection={closestCorners}
+			onDragStart={(event) => setActiveId(String(event.active.id))}
+			onDragEnd={(event) => {
+				handleDragEnd(event);
+				setActiveId(null);
+			}}
+			onDragCancel={() => setActiveId(null)}
+		>
+			{/* MOBILE */}
 			<div className='md:hidden flex flex-col gap-2'>
 				{columns.map((column) => (
 					<KanbanColumn
@@ -69,7 +95,8 @@ export default function KanbanBoard({
 				))}
 			</div>
 
-			<div className='hidden md:flex gap-3 pb-6 overflow-x-hidden w-full'>
+			{/* DESKTOP */}
+			<div className='hidden md:flex gap-3 pb-6 w-full'>
 				{columns.map((column) => (
 					<KanbanColumn
 						key={column.id}
@@ -79,6 +106,13 @@ export default function KanbanBoard({
 					/>
 				))}
 			</div>
+
+			{/* DRAG OVERLAY (CRITICAL FOR MOBILE) */}
+			<DragOverlay>
+				{activeId ? (
+					<KanbanCard deal={deals.find((d) => d.id === activeId)!} />
+				) : null}
+			</DragOverlay>
 		</DndContext>
 	);
 }

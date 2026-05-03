@@ -30,7 +30,8 @@ export default function KanbanColumn({
 						{deals.length}
 					</span>
 				</div>
-				<div className='flex flex-col gap-2 px-3 py-3 min-h-[60px]'>
+
+				<div className='flex flex-col gap-2 px-3 py-4 min-h-[100px]'>
 					{deals.length > 0 ? (
 						deals.map((deal) => <KanbanCard key={deal.id} deal={deal} />)
 					) : (
@@ -42,13 +43,14 @@ export default function KanbanColumn({
 	}
 
 	return (
-		<div className='flex-1 min-w-0 flex flex-col gap-3'>
+		<div className='flex-1 min-w-0 flex flex-col gap-3 overflow-x-hidden'>
 			<div className='flex items-center justify-between'>
 				<h2 className='text-sm font-medium text-zinc-200'>{label}</h2>
 				<span className='text-xs text-zinc-500 bg-white/5 border border-white/10 rounded-full px-2 py-0.5'>
 					{deals.length}
 				</span>
 			</div>
+
 			<div
 				ref={setNodeRef}
 				className={`flex flex-col gap-2 rounded-xl p-3 min-h-[200px] border transition-colors duration-150 ${
