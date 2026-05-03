@@ -70,9 +70,8 @@ export default function KanbanBoard({
 		>
 			{/* Mobile */}
 			<div
-				className={`md:hidden flex flex-col gap-2 ${
-					isDragging ? "overflow-hidden touch-none" : ""
-				}`}
+				className='md:hidden flex flex-col gap-2'
+				style={{ touchAction: isDragging ? "none" : "auto" }}
 			>
 				{columns.map((column) => (
 					<KanbanColumn
@@ -86,7 +85,7 @@ export default function KanbanBoard({
 			</div>
 
 			{/* Desktop */}
-			<div className='hidden md:flex gap-4 pb-6'>
+			<div className='hidden md:flex gap-3 pb-6 overflow-x-hidden w-full'>
 				{columns.map((column) => (
 					<KanbanColumn
 						key={column.id}
