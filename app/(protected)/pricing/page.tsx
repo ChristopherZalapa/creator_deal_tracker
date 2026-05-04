@@ -67,30 +67,30 @@ export default function PricingPage() {
 	};
 
 	return (
-		<div className='p-8 flex items-center justify-center min-h-screen'>
+		<div className='p-4 md:p-8 flex items-start md:items-center justify-center min-h-screen'>
 			<div className='w-full max-w-5xl'>
-				<h1 className='text-white text-2xl font-semibold mb-8 text-center'>
+				<h1 className='text-white text-xl md:text-2xl font-semibold mb-6 md:mb-8 text-center'>
 					Pricing
 				</h1>
 
-				<div className='grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch'>
+				<div className='grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 items-stretch'>
 					{plans.map((plan) => (
 						<div
 							key={plan.name}
-							className='bg-white/5 border border-white/10 rounded-xl p-8 flex flex-col'
+							className='bg-white/5 border border-white/10 rounded-xl p-5 md:p-8 flex flex-col'
 						>
 							<div className='flex-1'>
 								<h2 className='text-white font-semibold text-lg mb-2'>
 									{plan.name}
 								</h2>
-								<p className='text-white text-4xl font-bold mb-6'>
+								<p className='text-white text-3xl md:text-4xl font-bold mb-4 md:mb-6'>
 									{plan.price}{" "}
-									<span className='text-zinc-400 text-lg font-normal'>
+									<span className='text-zinc-400 text-base md:text-lg font-normal'>
 										/ month
 									</span>
 								</p>
 
-								<div className='space-y-3 mb-8'>
+								<div className='space-y-3 mb-6 md:mb-8'>
 									{plan.features.map((feature) => (
 										<div key={feature} className='flex items-center gap-2'>
 											<Check className='w-4 h-4 text-green-400 shrink-0' />

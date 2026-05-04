@@ -31,18 +31,20 @@ export default async function NewDeal() {
 	};
 
 	return (
-		<div className='p-8 max-w-2xl'>
-			<div className='flex items-center gap-4 mb-8'>
+		<div className='p-4 md:p-8 max-w-2xl'>
+			<div className='flex items-center gap-4 mb-6 md:mb-8'>
 				<Link
 					href='/deals'
 					className='text-zinc-400 hover:text-white transition-colors text-sm'
 				>
 					← Back
 				</Link>
-				<h1 className='text-white text-2xl font-semibold'>Add Deal</h1>
+				<h1 className='text-white text-xl md:text-2xl font-semibold'>
+					Add Deal
+				</h1>
 			</div>
 
-			<div className='bg-white/5 border border-white/10 rounded-xl p-6'>
+			<div className='bg-white/5 border border-white/10 rounded-xl p-4 md:p-6'>
 				<form action={addDeal} className='space-y-5'>
 					<div className='space-y-1.5'>
 						<label
@@ -138,7 +140,7 @@ export default async function NewDeal() {
 						</div>
 					</div>
 
-					<div className='grid grid-cols-2 gap-4'>
+					<div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
 						<div className='space-y-1.5'>
 							<label
 								htmlFor='deal_value'
@@ -173,7 +175,7 @@ export default async function NewDeal() {
 						</div>
 					</div>
 
-					<div className='grid grid-cols-2 gap-4'>
+					<div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
 						<div className='space-y-1.5'>
 							<label
 								htmlFor='expected_views'

@@ -12,7 +12,6 @@ import {
 import { useState, useEffect } from "react";
 import type { Deal } from "@/types";
 import KanbanColumn from "./KanbanColumn";
-import KanbanCard from "./KanbanCard";
 import { updateDealStatus } from "@/app/(protected)/deals/actions";
 
 export default function KanbanBoard({
@@ -49,7 +48,6 @@ export default function KanbanBoard({
 
 	function handleDragEnd(event: DragEndEvent) {
 		const { active, over } = event;
-		console.log("dragEnd", { activeId: active.id, overId: over?.id });
 		if (!over) return;
 
 		const dealId = String(active.id);
@@ -78,6 +76,8 @@ export default function KanbanBoard({
 
 		updateDealStatus(dealId, newStatus);
 	}
+
+	const activeDeal = deals.find((d) => d.id === activeId);
 
 	if (!mounted) return null;
 
@@ -117,9 +117,19 @@ export default function KanbanBoard({
 				))}
 			</div>
 
-			<DragOverlay>
-				{activeId ? (
-					<KanbanCard deal={deals.find((d) => d.id === activeId)!} />
+			<DragOverlay dropAnimation={null}>
+				{activeDeal ? (
+					<div className='rounded-xl border p-4 bg-white/10 border-white/20 shadow-xl w-[calc(100vw-64px)] md:w-[280px]'>
+						<p className='text-white text-sm font-medium mb-1'>
+							{activeDeal.brand_name}
+						</p>
+						<p className='text-zinc-400 text-xs mb-3'>
+							{activeDeal.creators?.name}
+						</p>
+						<p className='text-zinc-300 text-sm font-semibold'>
+							${activeDeal.deal_value.toLocaleString()}
+						</p>
+					</div>
 				) : null}
 			</DragOverlay>
 		</DndContext>

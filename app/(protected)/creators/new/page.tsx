@@ -23,18 +23,20 @@ export default async function NewCreator() {
 	};
 
 	return (
-		<div className='p-8 '>
-			<div className='flex items-center gap-4 mb-8'>
+		<div className='p-4 md:p-8'>
+			<div className='flex items-center gap-4 mb-6 md:mb-8'>
 				<Link
 					href='/creators'
 					className='text-zinc-400 hover:text-white transition-colors text-sm'
 				>
 					← Back
 				</Link>
-				<h1 className='text-white text-2xl font-semibold'>Add Creator</h1>
+				<h1 className='text-white text-xl md:text-2xl font-semibold'>
+					Add Creator
+				</h1>
 			</div>
 
-			<div className='bg-white/5 border border-white/10 rounded-xl p-6'>
+			<div className='bg-white/5 border border-white/10 rounded-xl p-4 md:p-6'>
 				<form action={addCreator} className='space-y-5'>
 					<div className='space-y-1.5'>
 						<label htmlFor='name' className='text-sm font-medium text-zinc-200'>
@@ -91,7 +93,7 @@ export default async function NewCreator() {
 						</div>
 					</div>
 
-					<div className='grid grid-cols-2 gap-4'>
+					<div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
 						<div className='space-y-1.5'>
 							<label
 								htmlFor='followers'
@@ -140,7 +142,7 @@ export default async function NewCreator() {
 						/>
 					</div>
 
-					<div className='flex items-center  gap-3 pt-2'>
+					<div className='flex items-center gap-3 pt-2'>
 						<button
 							type='submit'
 							className='h-9 rounded-md bg-white px-6 text-sm font-medium text-black hover:bg-zinc-200 transition-colors'
@@ -149,7 +151,7 @@ export default async function NewCreator() {
 						</button>
 						<Link
 							href='/creators'
-							className='h-9 rounded-md border border-white/10 px-6 text-sm text-zinc-400 hover:text-white transition-colors flex items-center '
+							className='h-9 rounded-md border border-white/10 px-6 text-sm text-zinc-400 hover:text-white transition-colors flex items-center'
 						>
 							Cancel
 						</Link>
