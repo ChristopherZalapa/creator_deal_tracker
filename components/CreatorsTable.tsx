@@ -30,7 +30,12 @@ const EmptyState = () => (
 	</div>
 );
 
-export default function CreatorTable({ creators }: { creators: Creator[] }) {
+export default function CreatorTable({
+	creators,
+}: {
+	creators: Creator[];
+	isAdmin?: boolean;
+}) {
 	const [openModal, setOpenModal] = useState(false);
 	const [selectedCreator, setSelectedCreator] = useState<Creator | null>(null);
 
@@ -144,7 +149,7 @@ export default function CreatorTable({ creators }: { creators: Creator[] }) {
 									<td className='text-white text-sm py-4 pr-4'>
 										{creator.niche}
 									</td>
-									<td className='text-white text-sm py-4 pr-4 max-w-[180px] truncate'>
+									<td className='text-white text-sm py-4 pr-4 max-w-45 truncate'>
 										{creator.email}
 									</td>
 									<td className='py-4'>

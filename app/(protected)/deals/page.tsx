@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import DealsTable from "@/components/DealsTable";
 import ExportButton from "@/components/ExportButton";
+import { getRole } from "@/lib/auth";
 
 export default async function Deals({
 	searchParams,
@@ -16,9 +17,10 @@ export default async function Deals({
 		data: { user },
 	} = await supabase.auth.getUser();
 
-	if (!user) {
-		redirect("/login");
-	}
+	if (!user) redirect("/login");
+
+	const role = await getRole();
+	const isAdmin = role === "admin";
 
 	const { data: profile } = await supabase
 		.from("profiles")
@@ -64,12 +66,14 @@ export default async function Deals({
 				<h1 className='text-white text-xl md:text-2xl font-semibold'>Deals</h1>
 				<div className='flex items-center gap-2 md:gap-3'>
 					<ExportButton deals={deals ?? []} profile={profile?.full_name} />
-					<Link
-						href='/deals/new'
-						className='bg-white text-black text-sm font-medium px-3 md:px-4 py-2 rounded-md hover:bg-zinc-200 transition-colors'
-					>
-						Add Deal
-					</Link>
+					{isAdmin && (
+						<Link
+							href='/deals/new'
+							className='bg-white text-black text-sm font-medium px-3 md:px-4 py-2 rounded-md hover:bg-zinc-200 transition-colors'
+						>
+							Add Deal
+						</Link>
+					)}
 				</div>
 			</div>
 
@@ -91,7 +95,7 @@ export default async function Deals({
 				</div>
 			</div>
 
-			<DealsTable deals={deals ?? []} />
+			<DealsTable deals={deals ?? []} isAdmin={isAdmin} />
 		</div>
 	);
 }

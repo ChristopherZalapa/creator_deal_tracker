@@ -2,12 +2,14 @@ import { Pencil, Trash2 } from "lucide-react";
 
 interface ActionButtonsProps {
 	onEdit: () => void;
-	onDelete: () => void;
+	onDelete: () => void | Promise<void>;
+	isAdmin?: boolean;
 }
 
 export default function ActionButtons({
 	onEdit,
 	onDelete,
+	isAdmin = false,
 }: ActionButtonsProps) {
 	return (
 		<div className='flex items-center gap-1'>
@@ -18,13 +20,15 @@ export default function ActionButtons({
 			>
 				<Pencil className='w-3.5 h-3.5' />
 			</button>
-			<button
-				onClick={onDelete}
-				className='w-8 h-8 rounded-md flex items-center justify-center text-red-400 hover:text-red-300 hover:bg-red-400/10 transition-colors'
-				title='Delete'
-			>
-				<Trash2 className='w-3.5 h-3.5' />
-			</button>
+			{isAdmin && (
+				<button
+					onClick={onDelete}
+					className='w-8 h-8 rounded-md flex items-center justify-center text-red-400 hover:text-red-300 hover:bg-red-400/10 transition-colors'
+					title='Delete'
+				>
+					<Trash2 className='w-3.5 h-3.5' />
+				</button>
+			)}
 		</div>
 	);
 }

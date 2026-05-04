@@ -1,3 +1,10 @@
+export type Profile = {
+	id: string;
+	full_name: string;
+	role: "admin" | "member";
+	created_at: string;
+};
+
 export type Creator = {
 	id: string;
 	name: string;

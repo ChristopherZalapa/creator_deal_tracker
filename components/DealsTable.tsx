@@ -51,7 +51,13 @@ const EmptyState = () => (
 	</div>
 );
 
-export default function DealsTable({ deals }: { deals: Deal[] }) {
+export default function DealsTable({
+	deals,
+	isAdmin = false,
+}: {
+	deals: Deal[];
+	isAdmin?: boolean;
+}) {
 	const [openModal, setOpenModal] = useState(false);
 	const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
 
@@ -92,6 +98,7 @@ export default function DealsTable({ deals }: { deals: Deal[] }) {
 									<ActionButtons
 										onEdit={() => handleEdit(deal)}
 										onDelete={() => deleteDeal(deal.id)}
+										isAdmin={isAdmin}
 									/>
 								</div>
 								<div className='grid grid-cols-2 gap-y-3'>
@@ -190,6 +197,7 @@ export default function DealsTable({ deals }: { deals: Deal[] }) {
 											<ActionButtons
 												onEdit={() => handleEdit(deal)}
 												onDelete={() => deleteDeal(deal.id)}
+												isAdmin={isAdmin}
 											/>
 										</td>
 									</tr>

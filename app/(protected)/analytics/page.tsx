@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import AnalyticsChart from "@/components/AnalyticsChart";
+import { getRole } from "@/lib/auth";
 
 export default async function Analytics() {
 	const supabase = await createClient();
@@ -12,6 +13,9 @@ export default async function Analytics() {
 	if (!user) {
 		redirect("/login");
 	}
+
+	const role = await getRole();
+	if (role !== "admin") redirect("/dashboard");
 
 	const { data: deals } = await supabase
 		.from("deals")

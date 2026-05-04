@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import CreatorTable from "@/components/CreatorsTable";
+import { getRole } from "@/lib/auth";
 
 export default async function Creators() {
 	const supabase = await createClient();
@@ -10,9 +11,10 @@ export default async function Creators() {
 		data: { user },
 	} = await supabase.auth.getUser();
 
-	if (!user) {
-		redirect("/login");
-	}
+	if (!user) redirect("/login");
+
+	const role = await getRole();
+	const isAdmin = role === "admin";
 
 	const { data: creators } = await supabase.from("creators").select("*");
 
@@ -22,14 +24,16 @@ export default async function Creators() {
 				<h1 className='text-white text-xl md:text-2xl font-semibold'>
 					Creators
 				</h1>
-				<Link
-					href='/creators/new'
-					className='bg-white text-black text-sm font-medium px-3 md:px-4 py-2 rounded-md hover:bg-zinc-200 transition-colors'
-				>
-					Add Creator
-				</Link>
+				{isAdmin && (
+					<Link
+						href='/creators/new'
+						className='bg-white text-black text-sm font-medium px-3 md:px-4 py-2 rounded-md hover:bg-zinc-200 transition-colors'
+					>
+						Add Creator
+					</Link>
+				)}
 			</div>
-			<CreatorTable creators={creators ?? []} />
+			<CreatorTable creators={creators ?? []} isAdmin={isAdmin} />
 		</div>
 	);
 }
