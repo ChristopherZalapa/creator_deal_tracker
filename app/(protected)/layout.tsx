@@ -55,7 +55,7 @@ export default async function DashboardLayout({
 			icon: BarChart2,
 			adminOnly: true,
 		},
-		{ href: "/pricing", label: "Pricing", icon: CreditCard, adminOnly: true },
+		{ href: "/pricing", label: "Pricing", icon: CreditCard, adminOnly: false },
 	];
 
 	const visibleLinks = navLinks.filter((link) => !link.adminOnly || isAdmin);

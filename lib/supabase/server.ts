@@ -11,13 +11,17 @@ export async function createClient() {
 			cookies: {
 				getAll() {
 					return cookieStore.getAll();
-					// getAll() - reads all cookies (So Supabase can find my session)
 				},
 				setAll(cookiesToSet) {
-					// setAll() - writes cookies back(so your session stays fresh)
-					cookiesToSet.forEach(({ name, value, options }) => {
-						cookieStore.set(name, value, options);
-					});
+					try {
+						cookiesToSet.forEach(({ name, value, options }) => {
+							cookieStore.set(name, value, options);
+						});
+					} catch {
+						// Called from a Server Component — cookies can only be
+						// set in Server Actions or Route Handlers. Safe to ignore
+						// as the middleware handles session refresh.
+					}
 				},
 			},
 		},
