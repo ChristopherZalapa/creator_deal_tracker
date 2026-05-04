@@ -28,7 +28,9 @@ export default async function Deals({
 		.eq("id", user!.id)
 		.single();
 
-	const query = supabase.from("deals").select("*, creators(name)");
+	const query = supabase
+		.from("deals")
+		.select("*, creators(name, niche, platform)");
 	const { data: deals } = await (status ? query.eq("status", status) : query);
 
 	const filters = [

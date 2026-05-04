@@ -13,6 +13,7 @@ import {
 	FileText,
 } from "lucide-react";
 import ActionButtons from "@/components/ActionButtons";
+import EmailModal from "@/components/EmailModal";
 
 function getStatusDisplay(status: string) {
 	switch (status) {
@@ -60,6 +61,7 @@ export default function DealsTable({
 }) {
 	const [openModal, setOpenModal] = useState(false);
 	const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
+	const [emailDeal, setEmailDeal] = useState<Deal | null>(null);
 
 	const handleEdit = (deal: Deal) => {
 		setSelectedDeal(deal);
@@ -95,11 +97,20 @@ export default function DealsTable({
 									<p className='text-white text-sm font-medium'>
 										{deal.brand_name}
 									</p>
-									<ActionButtons
-										onEdit={() => handleEdit(deal)}
-										onDelete={() => deleteDeal(deal.id)}
-										isAdmin={isAdmin}
-									/>
+									<div className='flex items-center gap-1'>
+										<button
+											onClick={() => setEmailDeal(deal)}
+											className='w-8 h-8 rounded-md flex items-center justify-center text-violet-400 hover:text-violet-300 hover:bg-violet-400/10 transition-colors'
+											title='Generate email'
+										>
+											<Mail className='w-3.5 h-3.5' />
+										</button>
+										<ActionButtons
+											onEdit={() => handleEdit(deal)}
+											onDelete={() => deleteDeal(deal.id)}
+											isAdmin={isAdmin}
+										/>
+									</div>
 								</div>
 								<div className='grid grid-cols-2 gap-y-3'>
 									<div>
@@ -194,11 +205,20 @@ export default function DealsTable({
 											</div>
 										</td>
 										<td className='py-4'>
-											<ActionButtons
-												onEdit={() => handleEdit(deal)}
-												onDelete={() => deleteDeal(deal.id)}
-												isAdmin={isAdmin}
-											/>
+											<div className='flex items-center gap-1'>
+												<button
+													onClick={() => setEmailDeal(deal)}
+													className='w-8 h-8 rounded-md flex items-center justify-center text-violet-400 hover:text-violet-300 hover:bg-violet-400/10 transition-colors'
+													title='Generate email'
+												>
+													<Mail className='w-3.5 h-3.5' />
+												</button>
+												<ActionButtons
+													onEdit={() => handleEdit(deal)}
+													onDelete={() => deleteDeal(deal.id)}
+													isAdmin={isAdmin}
+												/>
+											</div>
 										</td>
 									</tr>
 								);
@@ -213,6 +233,15 @@ export default function DealsTable({
 					</tbody>
 				</table>
 			</div>
+
+			{emailDeal && (
+				<EmailModal
+					deal={emailDeal}
+					creatorNiche={emailDeal.creators?.niche ?? ""}
+					creatorPlatform={emailDeal.creators?.platform ?? ""}
+					onClose={() => setEmailDeal(null)}
+				/>
+			)}
 
 			{openModal && (
 				<div className='fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4'>

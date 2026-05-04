@@ -25,6 +25,8 @@ export type Deal = {
 	creator_id: string;
 	creators: {
 		name: string;
+		niche: string;
+		platform: string;
 	} | null;
 };
 
