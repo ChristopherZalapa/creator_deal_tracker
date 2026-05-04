@@ -103,7 +103,29 @@ export default async function DashboardLayout({
 				</div>
 			</aside>
 
-			<main className='flex-1 min-w-0 pb-20 md:pb-0'>{children}</main>
+			<div className='flex-1 min-w-0 flex flex-col'>
+				{/* Mobile top bar */}
+				<div className='md:hidden flex items-center justify-between px-4 py-3 border-b border-white/10 bg-[#000000]'>
+					<div className='flex items-center gap-2'>
+						<div className='w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-white text-xs font-medium'>
+							{initials}
+						</div>
+						<div className='flex flex-col'>
+							<p className='text-white text-xs font-medium'>
+								{profile?.full_name}
+							</p>
+							{isAdmin && (
+								<span className='text-zinc-500 text-[10px] capitalize'>
+									{role}
+								</span>
+							)}
+						</div>
+					</div>
+					<SignOutButton />
+				</div>
+
+				<main className='flex-1 min-w-0 pb-20 md:pb-0'>{children}</main>
+			</div>
 
 			<nav className='fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#000000] border-t border-white/10 flex items-center justify-around px-2 py-2'>
 				{visibleLinks.map(({ href, label, icon: Icon }) => (
