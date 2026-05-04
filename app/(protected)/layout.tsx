@@ -45,20 +45,50 @@ export default async function DashboardLayout({
 			label: "Dashboard",
 			icon: LayoutDashboard,
 			adminOnly: false,
+			memberOnly: false,
 		},
-		{ href: "/creators", label: "Creators", icon: Users, adminOnly: false },
-		{ href: "/deals", label: "Deals", icon: Handshake, adminOnly: false },
-		{ href: "/kanban", label: "Kanban", icon: Kanban, adminOnly: false },
+		{
+			href: "/creators",
+			label: "Creators",
+			icon: Users,
+			adminOnly: false,
+			memberOnly: false,
+		},
+		{
+			href: "/deals",
+			label: "Deals",
+			icon: Handshake,
+			adminOnly: false,
+			memberOnly: false,
+		},
+		{
+			href: "/kanban",
+			label: "Kanban",
+			icon: Kanban,
+			adminOnly: false,
+			memberOnly: false,
+		},
 		{
 			href: "/analytics",
 			label: "Analytics",
 			icon: BarChart2,
 			adminOnly: true,
+			memberOnly: false,
 		},
-		{ href: "/pricing", label: "Pricing", icon: CreditCard, adminOnly: false },
+		{
+			href: "/pricing",
+			label: "Pricing",
+			icon: CreditCard,
+			adminOnly: false,
+			memberOnly: true,
+		},
 	];
 
-	const visibleLinks = navLinks.filter((link) => !link.adminOnly || isAdmin);
+	const visibleLinks = navLinks.filter((link) => {
+		if (link.adminOnly && !isAdmin) return false;
+		if (link.memberOnly && isAdmin) return false;
+		return true;
+	});
 
 	return (
 		<div className='min-h-screen bg-[#000000] flex'>
